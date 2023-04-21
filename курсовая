@@ -1,0 +1,68 @@
+#include<math.h>
+#include<conio.h>
+#include<iostream>
+using namespace std;
+
+//Подынтегральная функция
+float f(float x)
+{
+	float result;
+	result = log(x); // интеграл (можно использовать любой)
+	return result;
+};
+
+//  метод Симпсона
+double integralsimpson(float a, float b, float e)
+// код для вычислений
+{
+	//Вводим данных
+	float result;
+	float h;
+	float s;
+	float s1;
+	float s2;
+	float s3;
+	float x;
+	// ввод начальных значений интегральной суммы, шага
+	s2 = 1;
+	h = b - a;
+	s = f(a) + f(b);
+	//цикл достижения заданной точности вычислений
+	do
+	{
+		s3 = s2;
+		h = h / 2;
+		s1 = 0;
+		x = a + h;
+		// цикл, подсчитывающий сумму при определенном разбиении
+		do
+		{
+			s1 = s1 + 2 * f(x);
+			x = x + 2 * h;
+		} while (x < b);
+		s = s + s1;
+		s2 = (s + s1) *h / 3;
+		x = fabs(s3 - s2) / 15;
+	} while (x > e);
+	result = s2;
+	return result;
+}
+
+int main()
+{
+	setlocale(0, "rus");
+	float a1;
+	float b1;
+	float epsilon;
+	float array[10];
+	cout << "Введите a: ";  // ввод параметров a - начальная точка интеграла
+	cin >> a1;
+	cout << "Введите b: "; // ввод параметров b - конечная точка интеграла
+	cin >> b1;
+	cout << "Введите e: "; // ввод параметров e - точка деления интервала
+	cin >> epsilon;
+	// вывод результата
+	cout << "I=" << integralsimpson(a1, b1, epsilon);
+	cin.get();
+	return 0;
+}
